@@ -1,0 +1,31 @@
+<!--<script type='text/javascript'>  
+var $jq = jQuery.noConflict();  </script>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.2.1.js"></script>-->
+
+
+
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('.iFooterPane div:first-child').hide();
+
+
+    /*
+    
+    Make changes to the ReCaptcha box on registration page
+    
+    */
+
+    var reg = $('input[value=Register]').parent();
+    $('<table id="reg_table"><tr><td id="recap_target" rowspan=2></td><td id="reg_text">To complete your registration, fill in the two security words and hit Register</td></tr><tr><td id="reg_target"></td></tr></table>').appendTo(reg);
+
+    $('#recaptcha_widget_div').appendTo('#recap_target');
+    $('#recaptcha_area').css('margin-left', 'auto').css('margin-right', 'auto');
+    $('input[value=Register]').appendTo('#reg_target');
+    $('#reg_table').css('width', '715px').css('margin-right', 'auto').css('margin-left', 'auto');
+    $('#reg_text').css('text-align', 'center').css('color', '#ffffff');
+    $('#reg_target').css('text-align', 'center');
+
+  });
+</script>
