@@ -1,120 +1,174 @@
 <!-- Google Ecommerce Code -->
 <script>
-  window.dataLayer = window.dataLayer || [];
-  var order_id = $('h2.thankYouSubHeader').text();
-  var order_total = $('span#paymentTotalText').text();
-  var order_tax = $('span#paymentEstimatedText').text().replace('$', '');
-  var order_tax = parseFloat(order_tax);
-  var order_shipping = $('span.shipChargeText').text().replace('$', '');
-  var order_shipping = parseFloat(order_shipping);
-
-  order_id = order_id.match(/\d+/);
-
-  gtm_products = [];
-
-  $('.oneTextItem.bottomBorder.bottom10').each(function () {
-    gtm_products.push({
-      'id': $(this).find('span.oneTextISBNText').text().trim(),
-      'sku': $(this).find('span.oneTextISBNText').text().trim(),
-      'name': $(this).find('span.oneTextTitle').text().trim(),
-      'category': $(this).find('span.oneTextPrefText').text().trim(),
-      'price': $(this).find('span.oneTextSubText').text(),
-      'quantity': $(this).find('span.oneTextQTYText').text()
-    });
+  // purchase
+  // add_payment_info
+  // add_shipping_info
+  // Place this JavaScript code on the ThankYou Page in the Footer Script
+  var transaction_id = $('#ty-orderNumber-val').val();
+  var value = parseFloat(
+    $('.tyTotal-val.floatr')
+      .text()
+      .replace(/[^0-9.]/gi, '')
+  );
+  var tax = parseFloat(
+    $('.tyTax-val.floatr')
+      .text()
+      .replace(/[^0-9.]/gi, '')
+  );
+  var shipping = parseFloat(
+    $('.tyShipHand-val.floatr')
+      .text()
+      .replace(/[^0-9.]/gi, '')
+  );
+  // var payType = $('#paymentTypeText').text().trim();
+  var shippingType = $(
+    '.tyshipment-wrapper.row.bottomBorder .col-md-6.col-12.padding-left0.padding-right0:nth-of-type(2) p:nth-of-type(1)'
+  )
+    .first()
+    .contents()
+    .filter(function () {
+      return this.nodeType == 3;
+    })
+    .text();
+  
+  var items_to_send = [];
+  
+  // Add textbooks
+  $('.tybook-wrapper.row.top10').each(function () {
+    var isbn = $(this).find('.ty-textbook-isbn').val();
+    var name = $(this).find('.ty-textbook-name').val();
+    var category = 'Textbooks';
+    var type = $(this).find('.ty-textbook-pref').val();
+    var price = parseFloat($(this).find('ty-textbook-price').val());
+    var qty = parseInt($(this).find('.ty-textbook-quantity').val());
+  
+    var this_item = {
+      item_id: isbn,
+      item_name: name,
+      item_category: category,
+      item_variant: type,
+      price: price,
+      quantity: qty,
+    };
+  
+    items_to_send.push(this_item);
   });
-
-  $('.merchPanel.panel.panel-info').each(function () {
-    gtm_products.push({
-      'id': $(this).find('span.oneMerchNumText').text().trim() + '-' + $(this).find('span.oneMerchOptionText').text(),
-      'sku': $(this).find('span.oneMerchNumText').text().trim(),
-      'name': $(this).find('span.oneMerchDescText').text(),
-      'category': $(this).find('span.oneMerchOptionText').text(),
-      'price': $(this).find('span.oneMerchTotalText').text(),
-      'quantity': $(this).find('span.oneMerchQTYText').text()
-    });
+  
+  // Add merchandise
+  $('.row.tymerch-wrapper').each(function () {
+    var sku = $(this).find('.ty-merch-sku').val().trim();
+    var name = $(this).find('.ty-merch-name').val().trim();
+    var category = 'Merchandise';
+    // var types = [];
+    // var type = '';
+    // var types = $(this)
+    //   .find('.oneMerchOption > .oneMerchOptionText')
+    //   .text()
+    //   .trim()
+    //   .split('-', 5);
+    // types.forEach(function (item, index) {
+    //   type = type + item.trim() + ' ';
+    // });
+    // type = type.trim();
+    var price = parseFloat(
+      $(this)
+        .find('.ty-merch-price')
+        .val()
+        .replace(/[^0-9.]/gi, '')
+    );
+    var qty = parseInt($(this).find('.ty-merch-quantity').val());
+  
+    var this_item = {
+      item_id: sku,
+      item_name: name,
+      item_category: category,
+      // item_variant: type,
+      price: price,
+      quantity: qty,
+    };
+  
+    items_to_send.push(this_item);
   });
-
-  console.log("Order ID: " + order_id);
-  console.log("Order Total: " + order_total);
-  console.log("Total Tax: " + order_tax);
-  console.log("Total Shipping: " + order_shipping);
-  console.log("Google Tag Manager Products: <br>\t\t");
-  console.log(gtm_products);
-
-  dataLayer.push({
-    'event': 'gtmUBS.orderComplete',
-    'transactionId': + order_id,
-    'transactionAffiliation': 'University Book Store',
-    'transactionTotal': order_total,
-    'transactionTax': order_tax,
-    'transactionShipping': order_shipping,
-    'transactionProducts': gtm_products,
+  
+  gtag('event', 'purchase', {
+    transaction_id: transaction_id, // required (order number)
+    value: value, // required (total order $ amount)
+    tax: tax, // optional
+    shipping: shipping, // optional
+    currency: 'USD', // required
+    items: items_to_send,
   });
-
-  console.log("\n\nData Layer: <br>\t\t");
-  console.log(dataLayer);
-</script>
-<!-- Google Tag Manager -->
-<script>(function (w, d, s, l, i) {
-    w[l] = w[l] || []{
-      'gtm.start':
-      new Date().getTime(), event: 'gtm.js'
-    }); var f = d.getElementsByTagName(s)[0],
-      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-  })(window, document, 'script', 'dataLayer', 'GTM-PHJMTXQ');</script>
-<!-- End Google Tag Manager -->
-
-
-
-<!-- Google Code for Textbook Sales Conversion Page -->
-<!--<script type="text/javascript">
-        /* <![CDATA[ */
-        var google_conversion_id = 1063661403;
-        var google_conversion_language = "en";
-        var google_conversion_format = "3";
-        var google_conversion_color = "ffffff";
-        var google_conversion_label = "VoWOCKOHhV8Q296Y-wM";
-        var google_conversion_value = <<<ORDERTOTAL>>>;
-            var google_conversion_currency = "USD";
-            var google_remarketing_only = false;
-            /* ]]> */
-</script> -->
-
-<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
-</script>
-<noscript>
-  <div style="display:inline;">
-    <img height="1" width="1" style="border-style:none;" alt=""
-      src="//www.googleadservices.com/pagead/conversion/1063661403/?value=<<<ORDERTOTAL>>>&amp;currency_code=USD&amp;label=VoWOCKOHhV8Q296Y-wM&amp;guid=ON&amp;script=0" />
-  </div>
-</noscript>
-
-
-<!-- Facebook Conversion Code for Textbook Sales -->
-<script>(function () {
-    var _fbq = window._fbq || (window._fbq = []);
-    if (!_fbq.loaded) {
-      var fbds = document.createElement('script');
-      fbds.async = true;
-      fbds.src = '//connect.facebook.net/en_US/fbds.js';
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(fbds, s);
-      _fbq.loaded = true;
-    }
-  })();
-  window._fbq = window._fbq || [];
-  window._fbq.push(['track', '6031773143884', { 'value': '<<<ORDERTOTAL>>>', 'currency': 'USD' }]);
-</script>
-<noscript><img height="1" width="1" alt="" style="display:none"
-    src="https://www.facebook.com/tr?ev=6031773143884&amp;cd[value]=0.00&amp;cd[currency]=USD&amp;noscript=1" /></noscript>
-
-
-<!-- BingAds Conversion Code for Checkouts -->
-<script>(function (w, d, t, r, u) { var f, n, i; w[u] = w[u] || [], f = function () { var o = { ti: "4072986" }; o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad") }, n = d.createElement(t), n.src = r, n.async = 1, n.onload = n.onreadystatechange = function () { var s = this.readyState; s && s !== "loaded" && s !== "complete" || (f(), n.onload = n.onreadystatechange = null) }, i = d.getElementsByTagName(t)[0], i.parentNode.insertBefore(n, i) })(window, document, "script", "//bat.bing.com/bat.js", "uetq");</script>
-<noscript><img src="//bat.bing.com/action/0?ti=4072986&Ver=2" height="0" width="0"
-    style="display:none; visibility: hidden;" /></noscript>
-<script> window.uetq = window.uetq || [];
-  window.uetq.push({
-    'gv': <<<ORDERTOTAL>>> });
-</script>
+  
+  console.log(items_to_send);
+  gtag('event', 'add_shipping_info', {
+    currency: 'USD',
+    value: shipping,
+    shipping_tier: shippingType,
+    items: items_to_send,
+  });
+  
+  </script>
+  <!-- Google Tag Manager -->
+  <!-- <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []{
+        'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-PHJMTXQ');</script> -->
+  <!-- End Google Tag Manager -->
+  
+  
+  
+  <!-- Google Code for Textbook Sales Conversion Page -->
+  <!--<script type="text/javascript">
+          /* <![CDATA[ */
+          var google_conversion_id = 1063661403;
+          var google_conversion_language = "en";
+          var google_conversion_format = "3";
+          var google_conversion_color = "ffffff";
+          var google_conversion_label = "VoWOCKOHhV8Q296Y-wM";
+          var google_conversion_value = <<<ORDERTOTAL>>>;
+              var google_conversion_currency = "USD";
+              var google_remarketing_only = false;
+              /* ]]> */
+  </script> -->
+  
+  <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+  </script>
+  <noscript>
+    <div style="display:inline;">
+      <img height="1" width="1" style="border-style:none;" alt=""
+        src="//www.googleadservices.com/pagead/conversion/1063661403/?value=<<<ORDERTOTAL>>>&amp;currency_code=USD&amp;label=VoWOCKOHhV8Q296Y-wM&amp;guid=ON&amp;script=0" />
+    </div>
+  </noscript>
+  
+  
+  <!-- Facebook Conversion Code for Textbook Sales -->
+  <script>(function () {
+      var _fbq = window._fbq || (window._fbq = []);
+      if (!_fbq.loaded) {
+        var fbds = document.createElement('script');
+        fbds.async = true;
+        fbds.src = '//connect.facebook.net/en_US/fbds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(fbds, s);
+        _fbq.loaded = true;
+      }
+    })();
+    window._fbq = window._fbq || [];
+    window._fbq.push(['track', '6031773143884', { 'value': '<<<ORDERTOTAL>>>', 'currency': 'USD' }]);
+  </script>
+  <noscript><img height="1" width="1" alt="" style="display:none"
+      src="https://www.facebook.com/tr?ev=6031773143884&amp;cd[value]=0.00&amp;cd[currency]=USD&amp;noscript=1" /></noscript>
+  
+  
+  <!-- BingAds Conversion Code for Checkouts -->
+  <script>(function (w, d, t, r, u) { var f, n, i; w[u] = w[u] || [], f = function () { var o = { ti: "4072986" }; o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad") }, n = d.createElement(t), n.src = r, n.async = 1, n.onload = n.onreadystatechange = function () { var s = this.readyState; s && s !== "loaded" && s !== "complete" || (f(), n.onload = n.onreadystatechange = null) }, i = d.getElementsByTagName(t)[0], i.parentNode.insertBefore(n, i) })(window, document, "script", "//bat.bing.com/bat.js", "uetq");</script>
+  <noscript><img src="//bat.bing.com/action/0?ti=4072986&Ver=2" height="0" width="0"
+      style="display:none; visibility: hidden;" /></noscript>
+  <script> window.uetq = window.uetq || [];
+    window.uetq.push({
+      'gv': <<<ORDERTOTAL>>> });
+  </script>
