@@ -1,7 +1,7 @@
 <div class="backtotop">
   <a href="#" title="Back to top"><em class="fa fa-chevron-up"></em></a>
 </div>
-<header class="header donotprint" data-role="header">
+<!-- <header class="header donotprint" data-role="header">
   <nav class="header__wrapper navbar__site" role="navigation"
     aria-label="Site Search, Account/Login, and Shopping Cart">
     <div class="navbar-header pull-left">
@@ -22,7 +22,6 @@
           </button>
           <label for="search-term" class="sr-only">Search</label>
           <input type="search" id="search-term" class="search-field form-control" placeholder="Search...">
-          <!-- <span id="searchclear" class="fa fa-times-circle-o"></span> -->
         </div>
       </div>
       <div class="header__grid-item header__logo">
@@ -68,6 +67,63 @@
       </div>
     </div>
   </nav>
+</header> -->
+<header class="header donotprint" data-role="header">
+  <div class="header__ubs--logo">
+    <h1>
+      <a href="https://text.uwbookstore.com/home">
+        <img loading="lazy" src="https://i.univbkstr.com/v3/img/logos/ubsLogo.png" alt="University Book Store">
+      </a>
+    </h1>
+    <div class="visually-hidden"><a href="https://text.uwbookstore.com/home">University Book Store</a>
+    </div>
+  </div>
+  <ul class="navbar__links">
+    <li class="navbar__links--item toggle">
+      <div class="header__toggle">
+        <button id="ubs-nav-toggle" class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#ubs-nav">
+          <em class="fa fa-bars" aria-hidden="true"></em>
+        </button>
+        <span>Menu</span>
+      </div>
+    </li>
+    <li id="login" class="navbar__links--item">
+      <a href="https://text.uwbookstore.com/login" class="navbar__account">
+        <em class="fa fa-user" aria-hidden="true"></em>
+        <span>Login</span>
+      </a>
+    </li>
+
+    <li class="navbar__links--item">
+      <a href="https://text.uwbookstore.com/shoppingcart" class="navbar__cart">
+        <em class="fa fa-shopping-cart" aria-hidden="true"></em>
+        <p class="cart-info"><span id="cart-count"></span><span id="cart-text"></span></p>
+      </a>
+    </li>
+
+    <li class="navbar__links--item search">
+      <button id="search" class="navbar__search">
+        <em class="fa fa-search" aria-hidden="true"></em>
+        <span>Search</span>
+      </button>
+      <div class="search__form">
+        <div class="search__form--input">
+          <label for="search-term" class="sr-only">Search</label>
+          <input type="text" id="search-term" class="search-field form-control" placeholder="Search...">
+        </div>
+        <div class="search__form--submit">
+          <button id="search-submit" type="submit" class="search-submit btn btn-primary" value="Go!">
+            <span class="mobi-hide">
+              <em class="fa fa-search" aria-hidden="true"></em>
+              <em class="visually-hidden">Submit</em>
+            </span>
+            <span class="dt-hide">Submit</span>
+          </button>
+        </div>
+      </div>
+    </li>
+  </ul>
 </header>
 <!-- END OF UBS HEADER -->
 <nav class="navbar navbar-expand-lg navbar-ubs">
@@ -92,9 +148,6 @@
           <li>
             <a href="https://text.uwbookstore.com/MerchList?ID=21632">Engineering Supplies</a>
           </li>
-          <!-- <li>
-            <a href="https://text.uwbookstore.com/MerchList?ID=30277">Face Masks</a>
-          </li> -->
           <li>
             <a href="https://text.uwbookstore.com/MerchList?ID=21764">Index Cards</a>
           </li>
@@ -138,11 +191,6 @@
           </li>
           <li><a href="https://text.uwbookstore.com/buyback">In Store Text
               Buyback</a></li>
-          <!-- <li>
-                                <a class="modal-open2" href="#buyback-confirm" data-toggle="modal"
-                                    data-target="#buyback-confirm">Online
-                                    Text Buyback</a>
-                            </li> -->
           <li class="submenu__item external">
             <a href="https://my.wisc.edu " target="_blank" title="Opens in new tab">Check Your
               Schedule</a><em class="fa fa-external-link" aria-hidden="true"></em>
