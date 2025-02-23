@@ -1,21 +1,24 @@
 <script type="text/javascript" src="https://i.univbkstr.com/v3/js/text-variables.js"></script>
-<script type="text/javascript" src="https://i.univbkstr.com/v3/js/text-app.min.js"></script>
-<script type="text/javascript" src="https://i.univbkstr.com/v3/js/menu.min.js"></script>
+<script type="text/javascript" src="https://i.univbkstr.com/test/js/app.min.js?v=1"></script>
+<script type="text/javascript" src="https://i.univbkstr.com/v3/js/text-return.min.js"></script>
+<script type="text/javascript" src="https://i.univbkstr.com/test/js/menu.min.js"></script>
 <script type="text/javascript" src="https://i.univbkstr.com/v3/js/jquery.colorbox-min.js"></script>
 <script type="text/javascript" src="https://i.univbkstr.com/v3/js/smooth-scroll.min.js"></script>
 <script type="text/javascript" src="https://i.univbkstr.com/v3/js/pace.min.js"></script>
-<!-- <script type="text/javascript" src="https://i.univbkstr.com/v3/js/snowstorm.min.js"></script> -->
 <script type="text/javascript" src="https://i.univbkstr.com/v3/js/accordion.min.js"></script>
 
-<div id="fb-root"></div>
-<script async defer crossorigin="anonymous"
-  src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
-
+<!-- <script type="text/javascript" src="https://i.univbkstr.com/v3/js/holder.min.js"></script>
+<script type="text/javascript" src="https://i.univbkstr.com/v3/js/lazysizes.min.js"></script> -->
 <script>
   $(document).ready(function () {
     if ($(window).width() >= 768) {
       $('.dropdown-toggle').unbind('focus');
       $('.dropdown-toggle').unbind('click');
     }
+
+    $('.category__sidebar-toggle').click(function () {
+      $(this).toggleClass('open');
+      $(this).next().slideToggle(500);
+    })
   });
 </script>
